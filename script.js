@@ -162,3 +162,8 @@ window.location.href = "cart.html";
 }
 
 }
+function goCheckout(){
+
+window.location.href = "checkout.html";
+
+}
