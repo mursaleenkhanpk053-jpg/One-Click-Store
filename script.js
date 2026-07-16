@@ -155,5 +155,10 @@ location.reload();
 function checkout(){
 
 alert("Checkout system coming soon!");
+  function openCart(){
+
+window.location.href = "cart.html";
+
+}
 
 }
