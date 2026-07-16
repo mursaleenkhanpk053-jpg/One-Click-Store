@@ -65,3 +65,93 @@ document.querySelector(".hero button").onclick=function(){
     });
 
 };
+let cart = 0;
+
+
+// Load Products
+
+let productContainer = document.getElementById("productList");
+
+
+if(productContainer){
+
+products.forEach(function(product){
+
+productContainer.innerHTML += `
+
+<div class="product-card">
+
+<img src="${product.image}" alt="${product.name}">
+
+<h3>${product.name}</h3>
+
+<div class="rating">
+${product.rating}
+</div>
+
+<p>${product.description}</p>
+
+<p class="price">
+Rs. ${product.price}
+</p>
+
+<button onclick="addToCart()">
+Add To Cart
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+
+
+// Cart
+
+function addToCart(){
+
+cart++;
+
+document.getElementById("cartCount").innerHTML = cart;
+
+alert("Product added to cart!");
+
+}
+
+
+
+
+// Search
+
+function searchProduct(){
+
+let input = document.getElementById("searchInput").value.toLowerCase();
+
+let productsCards = document.querySelectorAll(".product-card");
+
+
+productsCards.forEach(function(card){
+
+let name = card.querySelector("h3").innerText.toLowerCase();
+
+
+if(name.includes(input)){
+
+card.style.display="block";
+
+}
+
+else{
+
+card.style.display="none";
+
+}
+
+});
+
+}
+
