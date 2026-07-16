@@ -1,71 +1,4 @@
-// Cart System
-
-let cart = 0;
-
-
-// Add To Cart Function
-
-function addToCart(){
-
-    cart++;
-
-    document.getElementById("cartCount").innerHTML = cart;
-
-    alert("Product added to cart!");
-
-}
-
-
-
-
-// Search Function
-
-function searchProduct(){
-
-    let input = document.getElementById("searchInput").value.toLowerCase();
-
-    let products = document.querySelectorAll(".product-card");
-
-
-    products.forEach(function(product){
-
-        let name = product.querySelector("h3").innerText.toLowerCase();
-
-
-        if(name.includes(input)){
-
-            product.style.display="block";
-
-        }
-
-        else{
-
-            product.style.display="none";
-
-        }
-
-
-    });
-
-
-}
-
-
-
-// Shop Button
-
-document.querySelector(".hero button").onclick=function(){
-
-    window.scrollTo({
-
-        top:700,
-
-        behavior:"smooth"
-
-    });
-
-};
-let cart = 0;
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 
 // Load Products
@@ -81,7 +14,7 @@ productContainer.innerHTML += `
 
 <div class="product-card">
 
-<img src="${product.image}" alt="${product.name}">
+<img src="${product.image}">
 
 <h3>${product.name}</h3>
 
@@ -95,7 +28,7 @@ ${product.rating}
 Rs. ${product.price}
 </p>
 
-<button onclick="addToCart()">
+<button onclick="addToCart(${product.id})">
 Add To Cart
 </button>
 
@@ -109,14 +42,21 @@ Add To Cart
 
 
 
+// Add Product To Cart
 
-// Cart
+function addToCart(id){
 
-function addToCart(){
+let product = products.find(item => item.id === id);
 
-cart++;
 
-document.getElementById("cartCount").innerHTML = cart;
+cart.push(product);
+
+
+localStorage.setItem("cart", JSON.stringify(cart));
+
+
+updateCartCount();
+
 
 alert("Product added to cart!");
 
@@ -124,34 +64,96 @@ alert("Product added to cart!");
 
 
 
+// Cart Count
 
-// Search
+function updateCartCount(){
 
-function searchProduct(){
+let count = document.getElementById("cartCount");
 
-let input = document.getElementById("searchInput").value.toLowerCase();
+if(count){
 
-let productsCards = document.querySelectorAll(".product-card");
-
-
-productsCards.forEach(function(card){
-
-let name = card.querySelector("h3").innerText.toLowerCase();
-
-
-if(name.includes(input)){
-
-card.style.display="block";
+count.innerHTML = cart.length;
 
 }
 
-else{
-
-card.style.display="none";
-
 }
+
+
+updateCartCount();
+
+
+
+
+// Display Cart
+
+let cartBox = document.getElementById("cartItems");
+
+
+if(cartBox){
+
+
+let total = 0;
+
+
+cart.forEach(function(item,index){
+
+
+total += item.price;
+
+
+cartBox.innerHTML += `
+
+<div class="product-card">
+
+<h3>${item.name}</h3>
+
+<p>
+Rs. ${item.price}
+</p>
+
+
+<button onclick="removeCart(${index})">
+Remove
+</button>
+
+
+</div>
+
+
+`;
 
 });
 
+
+document.getElementById("cartTotal").innerHTML =
+"Total: Rs. " + total;
+
+
 }
 
+
+
+
+// Remove Cart Item
+
+function removeCart(index){
+
+cart.splice(index,1);
+
+
+localStorage.setItem("cart",JSON.stringify(cart));
+
+
+location.reload();
+
+}
+
+
+
+// Checkout
+
+function checkout(){
+
+alert("Checkout system coming soon!");
+
+}
